@@ -1,0 +1,64 @@
+{%extends "contactBase.html"%}
+{% load crispy_forms_tags %}
+{%block content%}
+<div class="container mx-auto p-2 mt-2">
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <a href="{%url 'createContact'%}" class="btn btn-primary"><i class="fa-sharp fa-solid fa-plus"></i>&nbsp;Add Contact</a>
+        </li>
+    </ul>
+    
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Contact Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Profession</th>
+              <th scope="col">Email</th>
+              <th scope="col">Tel</th>
+              <th scope="col">Update Contact</th>
+              <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {%for contact in contact_list%}
+            <tr>
+            <th scope="row">{{forloop.counter}}.</th>
+              <td>{{contact.contact_id}}</td>
+              <td>{{contact.name}}</td>
+              <td>{{contact.address}}</td>
+              <td>{{contact.profession}}</td>
+              <td>{{contact.email}}</td>
+              <td>{{contact.tel}}</td>
+              <td><a href="{%url 'updateContact' pk=contact.pk%}"><i class="fa-solid fa-user-pen fa-2x"></i></a></td>
+              <td><a href="#contactModel{{contact.pk}}" data-bs-target="#contactModel{{contact.pk}}" data-bs-toggle="modal"><i class="fa-solid fa-user-minus text-danger fa-2x"></i></a></td>
+
+            </tr>
+            <div class="modal fade" id="contactModel{{contact.pk}}" aria-hidden="true" aria-labelledby="employeeModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Are you sure, you want to delete {{contact.name}}'s contact ?</h1>
+                        <ul class="list-inline text-end">
+                            <li class="list-inline-item">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{%url 'deleteContact' pk=contact.pk%}" class="btn btn-danger">Delete</a>
+                            </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </tbody> 
+    </table>
+</div>
+
+{%endblock%}
